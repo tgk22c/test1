@@ -4,18 +4,19 @@
     <title>MNIST Prediction</title>
 </head>
 <body>
-    {% if prediction %}
-    <h2>Prediction: {{ prediction }}</h2>
-    <h2>Actual: {{ actual }}</h2>
+<h1>MNIST Prediction</h1>
 
-    <!-- 여기서 img_data는 28x28 크기의 2D numpy array입니다 -->
-    <!-- 이를 적절하게 표시하는 방법은 별도로 구현해야 합니다 -->
-    
-    {% endif %}
+{% if pred_label is defined %}
+<p>Predicted Label: {{ pred_label }}</p>
+<p>True Label: {{ true_label }}</p>
 
-    <form method="post">
-      <input type="submit" value="Predict another">
-   </form>
+<button onclick="location.reload();">Predict Another Image</button>
 
+{% else %}
+<form method="post">
+<button type="submit">Predict Random Image</button>
+</form>
+
+{% endif %}
 </body>
 </html>
