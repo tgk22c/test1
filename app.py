@@ -6,7 +6,7 @@ from tensorflow.keras.datasets import mnist
 app = Flask(__name__)
 
 # 모델 로드
-model = load_model('your_model.h5')
+model = load_model('model.h5')
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
