@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>MNIST Prediction</title>
+    <title>MNIST Prediction</title>
 </head>
 <body>
+    {% if prediction %}
+    <h2>Prediction: {{ prediction }}</h2>
+    <h2>Actual: {{ actual }}</h2>
 
-<h1>MNIST Prediction</h1>
+    <!-- 여기서 img_data는 28x28 크기의 2D numpy array입니다 -->
+    <!-- 이를 적절하게 표시하는 방법은 별도로 구현해야 합니다 -->
+    
+    {% endif %}
 
-<img src="{{ img_url }}" alt="MNIST Image">
-<p>{{ prediction }}</p>
-
-<a href="/predict">Predict another image</a>
+    <form method="post">
+      <input type="submit" value="Predict another">
+   </form>
 
 </body>
 </html>
