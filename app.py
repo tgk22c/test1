@@ -27,7 +27,7 @@ def predict():
      # 가장 확률이 높은 클래스 선택하기 
     predicted_class = np.argmax(yhat[0])
 
-     return jsonify({'prediction': int(predicted_class), 'truth': int(y_test[idx])})
+    return jsonify({'prediction': int(predicted_class), 'truth': int(y_test[idx])})
 
 if __name__ == '__main__':
    app.run(host='0.0.0.0', port=5000)
