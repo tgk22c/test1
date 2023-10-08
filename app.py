@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, url_for
-from tensorflow.python.keras.models import load_model
+from tensorflow.keras.models import load_model
 from tensorflow.keras.datasets import mnist
 import numpy as np
 import matplotlib.pyplot as plt
