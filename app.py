@@ -7,7 +7,7 @@ import random
 app = Flask(__name__)
 
 # 모델 불러오기
-model = load_model('mnist_mlp_model.h5')
+model = load_model('model.h5')
 
 @app.route('/predict', methods=['GET'])
 def predict():
@@ -25,7 +25,7 @@ def predict():
     yhat = model.predict(input_image)
 
      # 가장 확률이 높은 클래스 선택하기 
-     predicted_class = np.argmax(yhat[0])
+    predicted_class = np.argmax(yhat[0])
 
      return jsonify({'prediction': int(predicted_class), 'truth': int(y_test[idx])})
 
