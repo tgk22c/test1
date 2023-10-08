@@ -20,7 +20,7 @@ def index():
         image, true_label = x_test[i], y_test[i]
 
         # Predict the digit in the image.
-        pred_label = model.predict_classes(image.reshape(1, -1))
+        pred_label = np.argmax(model.predict(image.reshape(1, -1)), axis=-1)
 
         return render_template('index.html', pred_label=pred_label[0], true_label=true_label)
     else:
