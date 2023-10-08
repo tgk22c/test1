@@ -1,37 +1,33 @@
-from flask import Flask, request, render_template, url_for
+from flask import Flask, jsonify
 from tensorflow.keras.models import load_model
 from tensorflow.keras.datasets import mnist
 import numpy as np
-import matplotlib.pyplot as plt
-import os
+import random
 
 app = Flask(__name__)
 
-# Load the model and prepare the data
+# 모델 불러오기
 model = load_model('mnist_mlp_model.h5')
-(x_train,y_train),(x_test,y_test) = mnist.load_data()
-x_test = x_test.reshape(10000,784).astype('float32') / 255.0
-
-@app.route('/')
-def home():
-    return render_template('index.html')
 
 @app.route('/predict', methods=['GET'])
 def predict():
-    # Select a random image from the test data and save it to a file
-    xhat_idx = np.random.choice(x_test.shape[0], 1)
-    xhat = x_test[xhat_idx]
+    # MNIST 데이터셋 로드하기 (학습 데이터는 필요 없으므로 버립니다)
+    (_, _), (x_test, y_test) = mnist.load_data()
+
+    # 테스트 데이터셋에서 임의로 하나 선택하기
+    idx = random.randint(0, len(x_test) - 1)
+    image = x_test[idx]
     
-    plt.imshow(xhat.reshape(28, 28), cmap='Greys', interpolation='nearest')
-    plt.savefig(os.path.join('static', 'image.png'))
+    # 이미지 전처리하기 (모델 입력에 맞게 차원 추가 및 정규화)
+    input_image = image.reshape(-1, 28, 28) / 255.
 
-    # Predict using the model and compare with actual value 
-    yhat = model.predict_classes(xhat)
-    
-    result_str = 'True : ' + str(np.argmax(y_test[xhat_idx[0]])) + ', Predict : ' + str(yhat[0])
+    # 모델로 예측하기 
+    yhat = model.predict(input_image)
 
-    return render_template('index.html', prediction=result_str,
-                           img_url=url_for('static', filename='image.png'))
+     # 가장 확률이 높은 클래스 선택하기 
+     predicted_class = np.argmax(yhat[0])
 
-if __name__ == "__main__":
+     return jsonify({'prediction': int(predicted_class), 'truth': int(y_test[idx])})
+
+if __name__ == '__main__':
    app.run(host='0.0.0.0', port=5000)
